@@ -1,20 +1,48 @@
 import sys
+import tty
+import termios
 import requests
 from pi import pi
+
+
+def get_single_character():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 
 class app:
     def __init__(self) -> None:
         self.pi = pi()
-        self.apiUrl = "http://localhost:9001"
+        self.apiUrl = "https://ams-api.dyhs.kr"
 
         while True:
             self.waitingQRInput()
 
     def waitingQRInput(self):
-        code = sys.stdin.readline().strip()
+        buffer = []
 
-        if self.checkAccess(code):
+        while 1:
+            char = get_single_character()
+            if char == ")":
+                break
+            if char == "!":
+                sys.exit()
+
+            buffer.append(char)
+
+        if buffer[0] == "(" and buffer[-1] == ")":
+            buffer.pop(0)
+            buffer.pop(-1)
+        else:
+            return
+
+        if self.checkAccess("".join(buffer)):
             self.pi.doorOpen()
 
     def checkAccess(self, code):

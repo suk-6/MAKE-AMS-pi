@@ -29,6 +29,8 @@ class app:
 
         while 1:
             char = get_single_character()
+            if char == "(":
+                buffer = []
             if char == ")":
                 break
             if char == "!":

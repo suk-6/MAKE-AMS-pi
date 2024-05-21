@@ -1,4 +1,5 @@
 import time
+import datetime
 import RPi.GPIO as GPIO
 
 
@@ -13,6 +14,7 @@ class pi:
         GPIO.output(self.openPin, False)
 
     def doorOpen(self):
+        print(f"{datetime.datetime.now()} - Open Door")
         GPIO.output(self.openPin, True)
         time.sleep(1)
         GPIO.output(self.openPin, False)

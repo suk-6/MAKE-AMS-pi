@@ -62,4 +62,9 @@ class app:
 
 
 if __name__ == "__main__":
-    app()
+    while 1:
+        try:
+            app()
+        except Exception as e:
+            print(e)
+            pass

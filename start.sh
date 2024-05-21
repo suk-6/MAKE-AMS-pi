@@ -2,4 +2,6 @@
 echo "Starting the application"
 
 # Start the application
-python3 /home/pi/MAKE-AMS-pi/app.py
+cd /home/pi/MAKE-AMS-pi
+git pull
+python3 app.py

@@ -31,12 +31,13 @@ class app:
             char = get_single_character()
             if char == "(":
                 buffer = []
-            if char == ")":
-                break
             if char == "!":
                 sys.exit()
 
             buffer.append(char)
+
+            if char == ")":
+                break
 
         if buffer[0] == "(" and buffer[-1] == ")":
             buffer.pop(0)

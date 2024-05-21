@@ -45,7 +45,6 @@ class app:
         else:
             return
 
-        print(buffer)
         if self.checkAccess("".join(buffer)):
             self.pi.doorOpen()
 

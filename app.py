@@ -3,6 +3,10 @@ import tty
 import termios
 import requests
 from pi import pi
+import logging
+
+
+logging.basicConfig(filename="./log.txt", level=logging.DEBUG)
 
 
 def get_single_character():
@@ -49,7 +53,7 @@ class app:
             self.pi.doorOpen()
 
     def checkAccess(self, code):
-        print(code)
+        logging.debug(f"Check Access: {code}")
         try:
             res = requests.get(
                 f"{self.apiUrl}/auth/access", params={"code": code}, timeout=5

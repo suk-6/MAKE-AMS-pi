@@ -49,6 +49,7 @@ class app:
             self.pi.doorOpen()
 
     def checkAccess(self, code):
+        print(code)
         try:
             res = requests.get(
                 f"{self.apiUrl}/auth/access", params={"code": code}, timeout=5

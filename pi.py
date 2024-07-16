@@ -1,5 +1,5 @@
 import time
-import asyncio
+import multiprocessing
 import datetime
 import RPi.GPIO as GPIO
 import logging
@@ -18,7 +18,8 @@ class pi:
         GPIO.setup(self.keyPin, GPIO.IN)
         GPIO.output(self.openPin, False)
 
-        asyncio.run(self.checkKey())
+        self.keyProcess = multiprocessing.Process(target=self.checkKey)
+        self.keyProcess.start()
 
     def doorOpen(self):
         logging.debug(f"{datetime.datetime.now()} - Open Door")
@@ -26,9 +27,9 @@ class pi:
         time.sleep(1)
         GPIO.output(self.openPin, False)
 
-    async def checkKey(self):
+    def checkKey(self):
         while True:
             if GPIO.input(self.keyPin) == GPIO.HIGH:
                 if checkAccess():
                     self.doorOpen()
-            await asyncio.sleep(0.1)
+            time.sleep(0.1)

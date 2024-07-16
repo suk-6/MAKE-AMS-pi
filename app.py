@@ -1,9 +1,9 @@
 import sys
 import tty
 import termios
-import requests
 from pi import pi
 import logging
+from auth import checkAccess
 
 
 logging.basicConfig(filename="./log.txt", level=logging.DEBUG)
@@ -23,7 +23,6 @@ def get_single_character():
 class app:
     def __init__(self) -> None:
         self.pi = pi()
-        self.apiUrl = "https://ams-api.dyhs.kr"
 
         while True:
             self.waitingQRInput()
@@ -49,22 +48,8 @@ class app:
         else:
             return
 
-        if self.checkAccess("".join(buffer)):
+        if checkAccess("".join(buffer)):
             self.pi.doorOpen()
-
-    def checkAccess(self, code):
-        logging.debug(f"Check Access: {code}")
-        try:
-            res = requests.get(
-                f"{self.apiUrl}/auth/access", params={"code": code}, timeout=5
-            )
-            if res.status_code != 200:
-                return False
-
-            data = res.json()
-            return data["status"]
-        except requests.exceptions.ReadTimeout:
-            return True
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ class pi:
         GPIO.setup(self.keyPin, GPIO.IN)
         GPIO.output(self.openPin, False)
 
-        self.keyProcess = multiprocessing.Process(target=self.checkKey)
+        self.keyProcess = multiprocessing.Process(target=self.checkKey, daemon=True)
         self.keyProcess.start()
 
     def doorOpen(self):

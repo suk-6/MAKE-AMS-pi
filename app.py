@@ -38,6 +38,7 @@ class app:
                 sys.exit()
 
             buffer.append(char)
+            logging.debug(buffer)
 
             if char == ")":
                 break

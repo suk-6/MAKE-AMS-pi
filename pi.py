@@ -1,7 +1,9 @@
 import time
+import asyncio
 import datetime
 import RPi.GPIO as GPIO
 import logging
+from auth import checkAccess
 
 
 class pi:
@@ -16,8 +18,17 @@ class pi:
         GPIO.setup(self.keyPin, GPIO.IN)
         GPIO.output(self.openPin, False)
 
+        asyncio.run(self.checkKey())
+
     def doorOpen(self):
         logging.debug(f"{datetime.datetime.now()} - Open Door")
         GPIO.output(self.openPin, True)
         time.sleep(1)
         GPIO.output(self.openPin, False)
+
+    async def checkKey(self):
+        while True:
+            if GPIO.input(self.keyPin) == GPIO.HIGH:
+                if checkAccess():
+                    self.doorOpen()
+            await asyncio.sleep(0.1)

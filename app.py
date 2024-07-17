@@ -9,6 +9,7 @@ from auth import checkAccess  # QR 코드 인증 처리 함수
 # 로그 파일 설정 (디버깅 정보 기록)
 logging.basicConfig(filename="./log.txt", level=logging.DEBUG)
 
+
 # 문자 하나씩 입력받는 함수 (특수 문자 포함)
 def get_single_character():
     fd = sys.stdin.fileno()  # 표준 입력 파일 디스크립터
@@ -19,6 +20,7 @@ def get_single_character():
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)  # 원래 설정 복원
     return ch  # 입력된 문자 반환
+
 
 # 메인 애플리케이션 클래스
 class app:
@@ -39,7 +41,6 @@ class app:
                 sys.exit()
 
             buffer.append(char)  # 입력된 문자 버퍼에 추가
-            logging.debug(buffer)  # 현재 버퍼 내용 로그 기록 (디버깅용)
 
             if char == ")":  # 종료 문자 ")"이면 입력 종료
                 break  # 루프 탈출
@@ -54,6 +55,7 @@ class app:
         # QR 코드 인증 확인
         if checkAccess("".join(buffer)):  # QR 코드 내용 전달하여 인증 확인
             self.pi.doorOpen()  # 인증 성공 시 문 열기
+
 
 # 프로그램 시작 (오류 처리 포함)
 if __name__ == "__main__":

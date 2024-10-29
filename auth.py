@@ -23,6 +23,9 @@ def getCodes():
         return codes
 
 
+print(getCodes())
+
+
 def checkCode(code):
     global codes
     if len(code) == 0:

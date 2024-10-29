@@ -11,8 +11,6 @@ ADMIN_KEY = os.getenv("ADMIN_KEY")
 # 인증 서버 URL 설정
 apiUrl = "https://ams-api.dyhs.kr"  # 실제 API 엔드포인트 주소로 변경해야 함
 
-codes = []
-
 
 def getCodes():
     res = requests.get(
@@ -25,10 +23,11 @@ def getCodes():
         return codes
 
 
+codes = getCodes()
+
+
 def checkCode(code):
     global codes
-    if len(code) == 0:
-        codes = getCodes()
 
     if code in codes:
         return True

@@ -1,5 +1,6 @@
 # 라이브러리 추가
 import os
+import requests
 from dotenv import load_dotenv
 
 load_dotenv(verbose=True)

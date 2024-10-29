@@ -4,7 +4,7 @@ import tty
 import termios
 from pi import pi  # GPIO 제어 등을 위한 사용자 정의 라이브러리
 import logging
-from auth import checkAccess  # QR 코드 인증 처리 함수
+from auth import checkAccess, saveAccess  # QR 코드 인증 처리 함수
 
 # 로그 파일 설정 (디버깅 정보 기록)
 logging.basicConfig(filename="./log.txt", level=logging.DEBUG)
@@ -52,9 +52,13 @@ class app:
         else:  # 유효하지 않은 QR 코드 형식이면 함수 종료
             return
 
+        code = "".join(buffer)
+
         # QR 코드 인증 확인
-        if checkAccess("".join(buffer)):  # QR 코드 내용 전달하여 인증 확인
+        if checkAccess(code):  # QR 코드 내용 전달하여 인증 확인
             self.pi.doorOpen()  # 인증 성공 시 문 열기
+
+            saveAccess(code)
 
 
 # 프로그램 시작 (오류 처리 포함)

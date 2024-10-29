@@ -1,5 +1,6 @@
 # 라이브러리 추가
 import os
+import logging
 import requests
 from dotenv import load_dotenv
 
